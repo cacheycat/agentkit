@@ -78,25 +78,25 @@ class Index:
 
 def load_cards(directory: str | Path) -> list[dict]:
     """Read a folder of markdown cards. Each `## ` heading starts one passage."""
-    docs = []
+    docs: list[dict] = []
+
+    def flush(card: str, card_title: str, title: str, buf: list[str]) -> None:
+        body = "\n".join(buf).strip()
+        if body:
+            docs.append({"id": f"{card}#{len(docs)}", "card": card, "card_title": card_title,
+                         "title": title, "text": body})
+
     for path in sorted(Path(directory).glob("*.md")):
         card = card_title = title = path.stem
         buf: list[str] = []
-
-        def flush():
-            body = "\n".join(buf).strip()
-            if body:
-                docs.append({"id": f"{card}#{len(docs)}", "card": card, "card_title": card_title,
-                             "title": title, "text": body})
-
         for line in path.read_text().splitlines():
             if line.startswith("# "):
                 card_title = title = line[2:].strip()
             elif line.startswith("## "):
-                flush()
+                flush(card, card_title, title, buf)
                 buf = []
                 title = f"{card_title} / {line[3:].strip()}"
             else:
                 buf.append(line)
-        flush()
+        flush(card, card_title, title, buf)
     return docs
