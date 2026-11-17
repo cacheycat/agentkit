@@ -37,7 +37,7 @@ flowchart LR
         direction LR
         R[Recall] --> D[Decide / LLM] --> A[Act / tools] --> L[Learn]
     end
-    M[(Memory<br/>utility = wins+1 / uses+2)]
+    M[(Memory<br/>utility = (wins+1) / (wins+losses+2))]
     K[(RAG cards<br/>BM25 + TF-IDF, rank-fused)]
     S[(SQLite store<br/>runs · events · evals)]
     UI[Web UI over SSE]
