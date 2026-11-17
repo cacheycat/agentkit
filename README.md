@@ -33,21 +33,22 @@ trusts free text.
 
 ```mermaid
 flowchart LR
-    subgraph Run["Runner (background thread, event-sourced)"]
+    subgraph Run["Runner: background thread, event-sourced"]
         direction LR
-        R[Recall] --> D[Decide / LLM] --> A[Act / tools] --> L[Learn]
+        R["Recall"] --> D["Decide (LLM)"] --> A["Act (tools)"] --> L["Learn"]
     end
-    M[(Memory<br/>utility = (wins+1) / (wins+losses+2))]
-    K[(RAG cards<br/>BM25 + TF-IDF, rank-fused)]
-    S[(SQLite store<br/>runs · events · evals)]
-    UI[Web UI over SSE]
+    M[("Memory<br/>utility = (wins+1) / (wins+losses+2)")]
+    K[("RAG cards<br/>BM25 + TF-IDF, rank-fused")]
+    S[("SQLite store<br/>runs, events, evals")]
+    UI["Web UI over SSE"]
+    P{{"Provider<br/>Anthropic API, claude CLI, or none"}}
 
     K --> R
     M <--> R
     M <--> L
-    Run -- every node emits events --> S
-    S -- replay with ?after=N --> UI
-    D -. JSON schema, 2 retries, fallback .-> P{{Provider<br/>Anthropic API · claude CLI · none}}
+    Run -->|"every node emits events"| S
+    S -->|"replay with after=N"| UI
+    D -.->|"JSON schema, 2 retries, fallback"| P
 ```
 
 ## Try it in 30 seconds
