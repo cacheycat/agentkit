@@ -57,7 +57,11 @@ def check_shape(obj: Any, schema: dict | None) -> None:
             if key not in obj:
                 raise LLMError(f"missing required key '{key}'")
             want = schema.get("properties", {}).get(key, {}).get("type")
-            if want in types and not isinstance(obj[key], types[want]):
+            value = obj[key]
+            # bool is an int subclass in Python, but never a valid JSON number
+            if want in ("number", "integer") and isinstance(value, bool):
+                raise LLMError(f"key '{key}' should be {want}")
+            if want in types and not isinstance(value, types[want]):
                 raise LLMError(f"key '{key}' should be {want}")
 
 
