@@ -1,0 +1,51 @@
+/* Structural styles for kit.js components. Colours come from the host app's
+   tokens: --ink --muted --faint --line --surface --accent --good --bad --mono */
+
+.kit-empty { color: var(--faint); font-size: 12.5px; padding: 14px 0; }
+
+.kit-chart-wrap { position: relative; }
+.kit-chart { display: block; overflow: visible; }
+.kit-grid { stroke: var(--line); stroke-width: 1; shape-rendering: crispEdges; }
+.kit-zero { stroke: var(--faint); stroke-width: 1; stroke-dasharray: 2 3; }
+.kit-axis { fill: var(--faint); font: 10.5px var(--mono); }
+.kit-line { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.kit-band { fill: var(--band, rgba(127,127,127,.07)); }
+.kit-band-label { fill: var(--faint); font: 600 9.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.kit-cursor { stroke: var(--muted); stroke-width: 1; pointer-events: none; }
+.kit-tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--line);
+  padding: 6px 9px; font: 11.5px var(--mono); color: var(--ink); white-space: nowrap; z-index: 5; }
+.kit-tip i { display: inline-block; width: 8px; height: 2px; margin-right: 6px; vertical-align: middle; }
+.kit-tip b { font-weight: 600; }
+.kit-tip-x { color: var(--faint); margin-bottom: 2px; }
+
+.kit-flow { display: flex; flex-wrap: wrap; gap: 6px 0; align-items: stretch; }
+.kit-node { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 7px;
+  padding: 7px 22px 7px 10px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  font-size: 12px; color: var(--faint); min-width: 0; max-width: 230px; transition: color .2s, background .2s; }
+.kit-node:first-child { border-left: 1px solid var(--line); }
+.kit-node::after { content: "›"; position: absolute; right: 7px; top: 6px; color: var(--faint); font-size: 13px; }
+.kit-node:last-child { border-right: 1px solid var(--line); padding-right: 12px; }
+.kit-node:last-child::after { content: none; }
+.kit-node-idx { font: 10px var(--mono); color: var(--faint); }
+.kit-node-label { font-weight: 550; white-space: nowrap; }
+.kit-node-count { font: 10.5px var(--mono); color: var(--muted); }
+.kit-node-routes { flex-basis: 100%; font: 10px var(--mono); color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kit-node.done { color: var(--ink); }
+.kit-node.done .kit-node-idx { color: var(--accent); }
+.kit-node.active { color: var(--ink); background: color-mix(in srgb, var(--accent) 12%, transparent); box-shadow: inset 0 -2px 0 var(--accent); }
+.kit-node.active .kit-node-label::after { content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 7px;
+  border-radius: 50%; background: var(--accent); vertical-align: middle; animation: kit-pulse 1s ease-in-out infinite; }
+@keyframes kit-pulse { 50% { opacity: .25; } }
+
+.kit-trace { font-size: 12px; overflow-y: auto; }
+.kit-trace-row { display: grid; grid-template-columns: 62px 132px 1fr 52px; gap: 10px; padding: 5px 0;
+  border-bottom: 1px solid var(--line); align-items: baseline; }
+.kit-trace-row.sub { border-bottom-style: dotted; color: var(--muted); }
+.kit-trace-time, .kit-trace-ms { font: 10.5px var(--mono); color: var(--faint); }
+.kit-trace-ms { text-align: right; }
+.kit-trace-node { font-weight: 550; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kit-trace-row.sub .kit-trace-node { font-weight: 400; padding-left: 12px; }
+.kit-trace-note { color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+.kit-trace-note em { font-style: normal; color: var(--accent); }
+.kit-trace-note em.bad, .kit-trace-row.warn .kit-trace-node { color: var(--bad); }
+@media (prefers-reduced-motion: reduce) { .kit-node.active .kit-node-label::after { animation: none; } }
