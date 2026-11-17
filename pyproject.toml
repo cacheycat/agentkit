@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentkit"
+version = "0.1.0"
+description = "A small agent runtime: bounded state graphs, event-sourced runs, learned-utility memory, hybrid RAG."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["fastapi>=0.110", "uvicorn>=0.27", "numpy>=1.24", "certifi"]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.40"]
+dev = ["pytest>=8", "ruff>=0.5", "httpx"]
+
+[tool.setuptools]
+packages = ["agentkit"]
+
+[tool.setuptools.package-data]
+agentkit = ["web/*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
